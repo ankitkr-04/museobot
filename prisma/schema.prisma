@@ -1,61 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 model Museum {
   id            String    @id @default(uuid())
   name          String
-  address       String
-  city          String
-  state         String
-  country       String
-  zipCode       String
   description   String?
-  adultCost     Float      // Cost for adults
-  childCost     Float      // Cost for children
-  seniorCost    Float      // Cost for seniors
-  accessoryCost Float      // Cost for accessories (if any)
+  accessoryCost Float
+  address       String
+  adultCost     Float
+  childCost     Float
+  city          String
+  country       String
+  seniorCost    Float
+  state         String
+  zipCode       String
   bookings      Booking[]
-
-  Holiday Holiday[]
+  Holiday       Holiday[]
 }
 
 model Booking {
   id             String        @id @default(uuid())
-  museum         Museum        @relation(fields: [museumId], references: [id])
   museumId       String
   numOfAdults    Int
-  visitDate      DateTime
-  conversationId String?        @unique
   numOfChildren  Int
   numOfSeniors   Int
-  accessories    Int           // Number of accessories
   totalPrice     Float
   status         PaymentStatus
   orderId        String        @unique
   paymentChannel String
   transactionId  String?
-  ticket         Ticket?
-  bookedBy       String        // Person's name
-  email          String        // Person's email
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
+  accessories    Int
+  bookedBy       String
+  conversationId String?       @unique
+  email          String
+  visitDate      DateTime
+  museum         Museum        @relation(fields: [museumId], references: [id])
+  ticket         Ticket?
 }
 
 model Ticket {
   id        String       @id @default(uuid())
-  booking   Booking      @relation(fields: [bookingId], references: [id])
   bookingId String       @unique
   barcodeNo String       @unique
   status    TicketStatus
   visitDate DateTime
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  booking   Booking      @relation(fields: [bookingId], references: [id])
+}
+
+model Holiday {
+  id          String   @id @default(uuid())
+  museumId    String?
+  description String
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  museum      Museum?  @relation(fields: [museumId], references: [id])
 }
 
 enum PaymentStatus {
@@ -69,14 +78,4 @@ enum TicketStatus {
   BOOKED
   USED
   CANCELLED
-}
-
-model Holiday {
-  id        String   @id @default(uuid())
-  museum    Museum?   @relation(fields: [museumId], references: [id])
-  museumId  String?
-  description String
-  date      DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }

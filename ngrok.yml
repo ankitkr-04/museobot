@@ -1,0 +1,8 @@
+version: 3
+agent:
+  authtoken: 356u7GZs7W8A0EYeLNGqKqffQIY_4ghVRD1nYr6mWaNz2NfZY
+
+tunnels:
+  basic:
+    proto: http
+    addr: 3000

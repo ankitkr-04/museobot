@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
         data: { status: "FAILED" },
       });
 
-      await axios.post(process.env.BOTPRESS_URL as string, {
+      await axios.post(process.env.BOTPRESS_WEBHOOK as string, {
         conversationId: booking.conversationId,
         status: "cancelled",
       });

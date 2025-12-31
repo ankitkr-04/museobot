@@ -38,12 +38,12 @@ const Payment = () => {
     };
 
     fetchOrderAndBookingDetails();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderId]);
 
   const initiatePayment = (order: any) => {
     const options = {
-      key: process.env.RAZORPAY_KEY_ID,
+      key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       amount: order.amount * 100,
       currency: order.currency,
       name: "MuseoBot",
@@ -51,7 +51,7 @@ const Payment = () => {
       order_id: order.id,
       handler: function (response: any) {
         // Handle payment success here
-        // console.log("Payment Success:", response);
+        console.log("Payment Success:", response);
         window.close();
       },
       prefill: {

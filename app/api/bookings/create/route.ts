@@ -1,12 +1,8 @@
-import prisma from "@/lib/prisma"; // Assuming you have a Prisma instance set up
+import prisma from "@/lib/prisma"; 
+import { razorpay } from "@/lib/razorpay";
 import { NextRequest, NextResponse } from "next/server";
-import Razorpay from "razorpay"; // Razorpay for payment processing
 
 // Initialize Razorpay with your keys
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
 
 export async function POST(req: NextRequest) {
   try {
